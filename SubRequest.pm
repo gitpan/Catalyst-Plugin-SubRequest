@@ -2,7 +2,7 @@ package Catalyst::Plugin::SubRequest;
 
 use strict;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 =head1 NAME
@@ -13,20 +13,27 @@ Catalyst::Plugin::SubRequest - Make subrequests to actions in Catalyst
 
     use Catalyst 'SubRequest';
 
-    $c->forward_request('!test','foo','bar');
+    $c->subreq('!test','foo','bar');
 
 =head1 DESCRIPTION
 
 Make subrequests to actions in Catalyst.
 
-=head2 METHODS
+=head1 METHODS
 
-=head3 forward_request
+=over 4 
+
+=item subreq action, args
+
+=item sub_request
 
 takes the name of the action you would like to call, as well as the
 arguments you want to pass to it.
 
+=back 
+
 =cut
+
 *subreq=\&sub_request;
 sub sub_request {
     my ( $c, $action, @args ) = @_;

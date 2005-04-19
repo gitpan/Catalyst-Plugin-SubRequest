@@ -4,4 +4,6 @@ MANIFEST			This list of files
 META.yml
 README
 SubRequest.pm
-test.pl
+t/01use.t
+t/02subreq.t
+t/lib/TestApp.pm

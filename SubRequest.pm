@@ -2,7 +2,7 @@ package Catalyst::Plugin::SubRequest;
 
 use strict;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 
 =head1 NAME
@@ -13,11 +13,12 @@ Catalyst::Plugin::SubRequest - Make subrequests to actions in Catalyst
 
     use Catalyst 'SubRequest';
 
-    $c->subreq('!test','foo','bar');
+    $c->subreq('/test/foo/bar');
 
 =head1 DESCRIPTION
 
-Make subrequests to actions in Catalyst.
+Make subrequests to actions in Catalyst. Uses the private name of
+the action for dispatch.
 
 =head1 METHODS
 
@@ -27,25 +28,30 @@ Make subrequests to actions in Catalyst.
 
 =item sub_request
 
-takes the name of the action you would like to call, as well as the
-arguments you want to pass to it.
+Takes a full path to a path you'd like to dispatch to.
 
 =back 
 
 =cut
 
-*subreq=\&sub_request;
+*subreq = \&sub_request;
+
 sub sub_request {
-    my ( $c, $action, @args ) = @_;
-    my $stash = $c->{stash} ; $c->{stash}= {};
-    my $content = $c->res->output; $c->res->output(undef);
-    my $args = $c->req->arguments; $c->req->arguments([@args]);
-    $c->forward($action);
-    $c->forward('!end');
-    my $output=$c->res->output;
-    $c->{stash}=$stash;
-    $c->res->output($content);
-    $c->req->arguments($args);
+    my ( $c, $path ) = @_;
+    my %old_req;
+    $path =~ s/^\///;
+    $old_req{stash}   = $c->{stash};$c->{stash}={};
+    $old_req{content} = $c->res->output;$c->res->output(undef);
+    $old_req{args}    = $c->req->arguments;
+    $old_req{action}  = $c->req->action;$c->req->action(undef);
+    $old_req{path}  = $c->req->path;$c->req->path($path);
+    $c->prepare_action();
+    $c->dispatch();
+    my $output  = $c->res->output;
+    $c->{stash} = $old_req{stash};
+    $c->res->output($old_req{content});
+    $c->req->arguments($old_req{args});
+    $c->req->action($old_req{action});
     return $output;
 }
 

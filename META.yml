@@ -1,11 +1,18 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Catalyst-Plugin-SubRequest
-version:      0.11
-version_from: SubRequest.pm
-installdirs:  site
-requires:
-    Catalyst:                      5.00
-
+--- 
+abstract: Make subrequests to actions in Catalyst
+author: Marcus Ramberg, C<mramberg@cpan.org>
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+generated_by: Module::Install version 0.67
+license: perl
+meta-spec: 
+  url: http://module-build.sourceforge.net/META-spec-v1.3.html
+  version: 1.3
+name: Catalyst-Plugin-SubRequest
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  Catalyst::Runtime: 0
+  Test::More: 0
+version: 0.12

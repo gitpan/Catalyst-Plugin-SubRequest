@@ -13,6 +13,6 @@ no_index:
     - inc
     - t
 requires: 
-  Catalyst::Runtime: 0
+  Catalyst::Runtime: 5.7012
   Test::More: 0
-version: 0.12
+version: 0.13

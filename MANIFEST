@@ -1,11 +1,8 @@
 Changes
-inc/Module/AutoInstall.pm
 inc/Module/Install.pm
-inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
-inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
@@ -20,3 +17,4 @@ t/02subreq.t
 t/03pod.t
 t/04podcoverage.t
 t/lib/TestApp.pm
+t/lib/TestApp/Controller/Root.pm

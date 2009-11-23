@@ -1,9 +1,10 @@
 package Catalyst::Plugin::SubRequest;
 
 use strict;
+use warnings;
 use Time::HiRes qw/tv_interval/;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 =head1 NAME
 
@@ -26,7 +27,7 @@ dispatcher, so it will work like an external url call.
 
 =head1 METHODS
 
-=over 4 
+=over 4
 
 =item subreq [path as string or hash ref], [stash as hash ref], [parameters as hash ref]
 
@@ -36,7 +37,7 @@ Takes a full path to a path you'd like to dispatch to.
 If the path is passed as a hash ref then it can include body, action, match and path.
 Any additional parameters are put into the stash.
 
-=back 
+=back
 
 =cut
 
@@ -61,6 +62,7 @@ sub sub_request {
     } else {
         $request_mods{path} = $path;
     }
+    $request_mods{_body} = delete $request_mods{body};
 
     my $fake_engine = bless(
         {
@@ -80,17 +82,17 @@ sub sub_request {
     my $inner_ctx = $class->prepare;
 
     $inner_ctx->stash($stash || {});
-    
-    
+
+
     $c->stats->profile(
         begin   => 'subrequest: /' . $path,
         comment => '',
-    ) if ($c->debug); 
-        
+    ) if ($c->debug);
+
     $inner_ctx->dispatch;
 
     $c->stats->profile( end => 'subrequest: /' . $path ) if ($c->debug);
-    
+
     return $inner_ctx->response->body;
 }
 
@@ -98,9 +100,11 @@ sub sub_request {
 
 L<Catalyst>.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Marcus Ramberg, C<mramberg@cpan.org>
+
+Tomas Doran (t0m) C<< bobtfish@bobtfish.net >>
 
 =head1 THANK YOU
 
@@ -109,7 +113,7 @@ SRI, for writing the awesome Catalyst framework
 =head1 COPYRIGHT
 
 Copyright (c) 2005 - 2008
-the Catalyst::Plugin::SubRequest L</AUTHOR>
+the Catalyst::Plugin::SubRequest L</AUTHORS>
 as listed above.
 
 =head1 LICENSE
@@ -127,7 +131,7 @@ sub AUTOLOAD { return 1; } # yeah yeah yeah
 sub prepare {
     my ($self, $c) = @_;
     my $req = $c->request;
-    
+
     @{$req}{keys %{$self->{orig_request}}} = values %{$self->{orig_request}};
     while (my ($key,$value) = each %{$self->{request_mods}}) {
         if (my $mut = $req->can($key)) {

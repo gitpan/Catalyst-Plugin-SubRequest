@@ -30,6 +30,7 @@ DESCRIPTION
 METHODS
     subreq [path as string or hash ref], [stash as hash ref], [parameters as
     hash ref]
+    subrequest
     sub_request
         Takes a full path to a path you'd like to dispatch to.
 
@@ -46,6 +47,7 @@ METHODS
 
     subreq_res [path as string or hash ref], [stash as hash ref],
     [parameters as hash ref]
+    subrequest_response
     sub_request_response
         Like "sub_request()", but returns a full Catalyst::Response object.
 
@@ -61,7 +63,7 @@ THANK YOU
     SRI, for writing the awesome Catalyst framework
 
 COPYRIGHT
-    Copyright (c) 2005 - 2008 the Catalyst::Plugin::SubRequest "AUTHORS" as
+    Copyright (c) 2005 - 2011 the Catalyst::Plugin::SubRequest "AUTHORS" as
     listed above.
 
 LICENSE

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Time::HiRes qw/tv_interval/;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 =head1 NAME
 
@@ -44,6 +44,8 @@ response (L<Catalyst::Response>) object.
 
 =item subreq [path as string or hash ref], [stash as hash ref], [parameters as hash ref]
 
+=item subrequest
+
 =item sub_request
 
 Takes a full path to a path you'd like to dispatch to.
@@ -61,6 +63,8 @@ Returns the body of the response.
 
 =item subreq_res [path as string or hash ref], [stash as hash ref], [parameters as hash ref]
 
+=item subrequest_response
+
 =item sub_request_response
 
 Like C<sub_request()>, but returns a full L<Catalyst::Response> object.
@@ -70,7 +74,9 @@ Like C<sub_request()>, but returns a full L<Catalyst::Response> object.
 =cut
 
 *subreq = \&sub_request;
+*subrequest = \&sub_request;
 *subreq_res = \&sub_request_response;
+*subrequest_response = \&sub_request_response;
 
 sub sub_request {
     return shift->sub_request_response( @_ )->body ;
@@ -92,6 +98,7 @@ sub sub_request_response {
 
     if (ref $path eq 'HASH') {
         @request_mods{keys %$path} = values %$path;
+        $path = $path->{path};
     } else {
         $request_mods{path} = $path;
     }
@@ -145,7 +152,7 @@ SRI, for writing the awesome Catalyst framework
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005 - 2008
+Copyright (c) 2005 - 2011
 the Catalyst::Plugin::SubRequest L</AUTHORS>
 as listed above.
 

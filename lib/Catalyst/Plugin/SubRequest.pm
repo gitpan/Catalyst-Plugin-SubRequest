@@ -2,8 +2,9 @@ package Catalyst::Plugin::SubRequest;
 
 use strict;
 use warnings;
+use Plack::Request;
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 =head1 NAME
 
@@ -85,6 +86,10 @@ sub sub_request_response {
     my ( $c, $path, $stash, $params ) = @_;
     $stash ||= {};
     my $env = $c->request->env;
+    my $req = Plack::Request->new($env);
+    my $uri = $req->uri;
+    $uri->query_form($params||{});
+    $env->{QUERY_STRING} = $uri->query||'';
     local $env->{PATH_INFO} = $path;
     local $env->{REQUEST_URI} = $env->{SCRIPT_NAME} . $path;
     $env->{REQUEST_URI} =~ s|//|/|g;

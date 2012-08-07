@@ -24,4 +24,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Plugin-SubRequest/
-version: 0.19
+version: 0.20

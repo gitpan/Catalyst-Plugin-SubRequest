@@ -1,5 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::SubRequest
 
+0.20  2012-08-07 18:03:00 BRT
+        - Fix RT#78821
+
 0.19  2012-07-19 23:50:58 BRT
         - Fixed non-propagation of parameters to subrequests
 
